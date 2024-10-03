@@ -13,4 +13,22 @@ export const TaskProvider = ({ children }) => {
         }
         loadTaskData()
     }, [])
+
+    const addTask = async (task) => {
+        const newTasks = [...tasks, task]
+        setTask(newTasks)
+        await AsyncStorage.setItem("@task", JSON.stringify(newTasks))
+    }
+
+    const removeTask = async (id) => {
+        const updatedTasks = task.filter(task => task.id !== id)
+        setTask(updatedTasks)
+        await AsyncStorage.setItem("@task", JSON.stringify(updatedTasks))
+    }
+
+    return (
+        <TaskContext.Provider value={{ task, addTask, removeTask }}>
+            {children}
+        </TaskContext.Provider>
+    )
 }
